@@ -1,0 +1,42 @@
+﻿@model WebApplicationTest.DTOs.ProductDto
+
+<h2>Product Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Name</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">@Model.Price.ToString("C")</dd>
+        <dt class="col-sm-2">Stock</dt>
+        <dd class="col-sm-10">@Model.Stock</dd>
+        <dt class="col-sm-2">Category</dt>
+        <dd class="col-sm-10">@Model.Category.Name</dd>
+        <dt class="col-sm-2">Main Image</dt>
+        <dd class="col-sm-10"><img src="@Model.MainImageUrl" alt="@Model.Name" style="max-width: 200px;" /></dd>
+        <dt class="col-sm-2">Additional Images</dt>
+        <dd class="col-sm-10">
+            @if (Model.Images.Any())
+            {
+                <div>
+                    @foreach (var image in Model.Images)
+                    {
+                        <img src="@image.ImageUrl" alt="Additional Image" style="max-width: 100px; margin-right: 10px;" />
+                    }
+                </div>
+            }
+            else
+            {
+                <span>No additional images available.</span>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

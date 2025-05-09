@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var products = ViewBag.Products as IEnumerable<WebApplicationTest.DTOs.ProductDto>;
+    var categories = ViewBag.Categories as IEnumerable<WebApplicationTest.DTOs.CategoryDto>;
+}
+
+<!-- Hero Section -->
+<section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+                <h1>Welcome to Our E-commerce Store</h1>
+                <h2>Explore our wide range of products and categories</h2>
+                <div class="d-flex">
+                    <a href="#products" class="btn-get-started scrollto">Explore Products</a>
+                    <a href="#categories" class="btn-watch-video d-flex align-items-center scrollto"><i class="bi bi-list"></i> View Categories</a>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-img">
+                <img src="~/img/hero-img.png" class="img-fluid animated" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<main id="main">
+    <!-- Products Section -->
+    <section id="products" class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>Products</h2>
+                <p>Explore Our Latest Products</p>
+            </div>
+            <div class="row">
+                @foreach (var product in products)
+                {
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="icon-box">
+                            <div class="icon">
+                                @if (!string.IsNullOrEmpty(product.MainImageUrl))
+                                {
+                                    <img src="@product.MainImageUrl" alt="@product.Name" style="max-width: 100px;" />
+                                }
+                                else
+                                {
+                                    <span>No image available.</span>
+                                }
+                            </div>
+                            <h4><a href="#">@product.Name</a></h4>
+                            <p>@product.Description</p>
+                            <p><strong>Price:</strong> @product.Price.ToString("C")</p>
+                            <p><strong>Stock:</strong> @product.Stock</p>
+                            <p><strong>Category:</strong> @product.Category?.Name</p>
+                            <div class="d-flex justify-content-center">
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-secondary">Details</a>
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-primary mx-2">Edit</a>
+                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a asp-controller="Product" asp-action="Create" class="btn-get-started">Add New Product</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>Categories</h2>
+                <p>Browse Our Categories</p>
+            </div>
+            <div class="row">
+                @foreach (var category in categories)
+                {
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="icon-box">
+                            <div class="icon">
+                                @if (!string.IsNullOrEmpty(category.Image))
+                                {
+                                    <img src="@category.Image" alt="@category.Name" style="max-width: 100px;" />
+                                }
+                                else
+                                {
+                                    <span>No image available.</span>
+                                }
+                            </div>
+                            <h4><a href="#">@category.Name</a></h4>
+                            <div class="d-flex justify-content-center">
+                                <a asp-controller="Category" asp-action="Details" asp-route-id="@category.Id" class="btn btn-sm btn-secondary">Details</a>
+                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-primary mx-2">Edit</a>
+                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a asp-controller="Category" asp-action="Create" class="btn-get-started">Add New Category</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

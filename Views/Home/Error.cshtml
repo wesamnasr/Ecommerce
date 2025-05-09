@@ -1,0 +1,26 @@
+﻿@model WebApplicationTest.ViewModels.ErrorViewModel
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<section id="error" class="section">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Error</h2>
+            <p>An error occurred while processing your request.</p>
+        </div>
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Something went wrong!</h4>
+            <p>We apologize for the inconvenience. Please try again later.</p>
+            @if (Model.ShowRequestId)
+            {
+                <hr>
+                <p>
+                    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+                </p>
+            }
+        </div>
+        <a asp-action="Index" class="btn-get-started">Back to Home</a>
+    </div>
+</section>

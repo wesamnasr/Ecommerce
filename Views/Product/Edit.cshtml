@@ -1,0 +1,75 @@
+﻿@model WebApplicationTest.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Edit Product</h2>
+            <p>Update product details</p>
+        </div>
+
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Product.Id" />
+            <div class="form-group">
+                <label asp-for="Product.Name"></label>
+                <input asp-for="Product.Name" class="form-control" />
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Description"></label>
+                <textarea asp-for="Product.Description" class="form-control"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Price"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Stock"></label>
+                <input asp-for="Product.Stock" class="form-control" />
+                <span asp-validation-for="Product.Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CategoryId"></label>
+                <select asp-for="Product.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Main Image</label>
+                <input type="file" name="MainImageFile" class="form-control-file" />
+                @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+                {
+                    <img src="@Model.MainImageUrl" alt="Main Image" style="max-width: 200px; margin-top: 10px;" />
+                }
+            </div>
+            <div class="form-group">
+                <label>Additional Images</label>
+                <input type="file" name="AdditionalImagesFiles" class="form-control-file" multiple />
+                @if (Model.AdditionalImageUrls.Any())
+                {
+                    <div style="margin-top: 10px;">
+                        @foreach (var imageUrl in Model.AdditionalImageUrls)
+                        {
+                            <img src="@imageUrl" alt="Additional Image" style="max-width: 100px; margin-right: 10px;" />
+                        }
+                    </div>
+                }
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
